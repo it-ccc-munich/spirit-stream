@@ -1,5 +1,5 @@
 from datetime import date
-from WorshipSongDTO import WorshipSongDTO
+from .WorshipSongDTO import WorshipSongDTO
 
 
 class SundayServiceWorshipSongsDTO:

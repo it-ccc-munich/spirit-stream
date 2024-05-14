@@ -5,7 +5,7 @@ from typing import List
 class SundayServiceStaffDTO:
     def __init__(self, sunday_service_date: date, preacher: str, host: str, scripture_reader: str, pianist: str,
                  hymn_leaders: List[str], projector_operator: str, benediction: str,
-                 sunday_school_activity: str, venue: List[str], greeters: str,
+                 sunday_school_leaders: List[str], venue: List[str], greeters: List[str],
                  meal_preparers: List[str], fellowship: str):
 
         # 日期
@@ -25,7 +25,7 @@ class SundayServiceStaffDTO:
         # 祝福
         self.benediction = benediction
         # 儿主
-        self.sunday_school_activity = sunday_school_activity
+        self.sunday_school_leaders = sunday_school_leaders
         # 场地
         self.venue = venue
         # 接待

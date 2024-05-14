@@ -1,5 +1,7 @@
 from datetime import date
-from VerseDTO import VerseDTO
+from typing import Union
+
+from .VerseDTO import VerseDTO
 
 
 class SundayServiceTeachingAndScripturesDTO:
@@ -7,7 +9,7 @@ class SundayServiceTeachingAndScripturesDTO:
                  psalms_of_inspiration_start: VerseDTO, psalms_of_inspiration_end: VerseDTO,
                  scripture_start: VerseDTO, scripture_end: VerseDTO,
                  teaching_title: str,
-                 golden_verse: VerseDTO):
+                 golden_verse: Union[VerseDTO, None]):
 
         # 日期
         self.sunday_service_date = sunday_service_date
