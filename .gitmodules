@@ -1,3 +1,4 @@
 [submodule "Security"]
 	path = Security
 	url = https://github.com/it-ccc-munich/spirit-stream-security.git
+	branch = main
