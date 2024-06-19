@@ -4,8 +4,9 @@ from email.mime.text import MIMEText
 from typing import List
 
 from DataTransferObject.ContactDTO import ContactDTO
+from DataTransferObject.SundayServiceSermonAndScripturesDTO import SundayServiceSermonAndScripturesDTO
 from DataTransferObject.SundayServiceStaffDTO import SundayServiceStaffDTO
-from Helpers.TemplateStringReplacements import replace_this_week_service_staff
+from HtmlTemplates.TemplateStringReplacement import replace_this_week_service_staff
 from Security.GoogleAccountAppPassword import GoogleAccountAppPassword
 
 
@@ -23,12 +24,12 @@ class EmailService:
             smtp.login(self.email_address, self.password)
             smtp.sendmail(self.email_address, message["To"], message.as_string())
 
-    def send_service_reminder_emails(self, sunday_service_staff: SundayServiceStaffDTO, contacts: List[ContactDTO]):
+    def send_service_reminder_emails(self, sunday_service_staff: SundayServiceStaffDTO, sunday_service_sermon_and_scriptures: SundayServiceSermonAndScripturesDTO, contacts: List[ContactDTO]):
         file = open("./ServiceReminderEmailTemplate.html", "r", encoding="utf-8")
         content = file.read()
         file.close()
 
-        content = replace_this_week_service_staff(content, sunday_service_staff)
+        content = replace_this_week_service_staff(content, sunday_service_staff, sunday_service_sermon_and_scriptures)
 
         for contact in contacts:
             # 如果聯係清單上的名字出現在本周服侍裏 并且 聯係人有email記錄在聯係清單上

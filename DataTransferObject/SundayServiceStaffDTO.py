@@ -10,8 +10,6 @@ class SundayServiceStaffDTO:
 
         # 日期
         self.sunday_service_date = sunday_service_date
-        # 讲员
-        self.preacher = preacher
         # 主礼
         self.host = host
         # 读经
@@ -22,8 +20,6 @@ class SundayServiceStaffDTO:
         self.hymn_leaders = hymn_leaders
         # 投影
         self.projector_operator = projector_operator
-        # 祝福
-        self.benediction = benediction
         # 儿主
         self.sunday_school_leaders = sunday_school_leaders
         # 场地

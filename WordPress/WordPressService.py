@@ -1,10 +1,8 @@
-from typing import Union
-
 import requests
 
-from DataTransferObject import SundayServiceReportDTO, SundayServiceStaffDTO, SundayServiceTeachingAndScripturesDTO
-from DataTransferObject.VerseDTO import VerseDTO
-import Template
+from BibleQuery.BibleQuery import BibleQueryService
+from DataTransferObject import SundayServiceReportDTO, SundayServiceStaffDTO, SundayServiceSermonAndScripturesDTO
+from HtmlTemplates import TemplateStringReplacement
 
 
 class WordPressService:
@@ -35,14 +33,19 @@ class WordPressService:
             self,
             last_week_sunday_service_report: SundayServiceReportDTO,
             this_week_sunday_service_staff: SundayServiceStaffDTO,
-            this_week_sunday_service_teaching_and_scripture: SundayServiceTeachingAndScripturesDTO,
-            last_week_golden_verse: Union[VerseDTO, None],
+            last_week_sermon_and_scripture: SundayServiceSermonAndScripturesDTO,
+            this_week_sermon_and_scripture: SundayServiceSermonAndScripturesDTO,
+            next_week_sermon_and_scripture: SundayServiceSermonAndScripturesDTO,
             next_week_sunday_service_staff: SundayServiceStaffDTO,
+            bible_query_service: BibleQueryService,
             public_post=False
     ):
         access_token = self._get_access_token()
         url = f"https://public-api.wordpress.com/wp/v2/sites/{self.site_id}/posts"
         header = {'Authorization': f'Bearer {access_token}'}
+        file = open("./WeeklyUpdateTemplate.html", "r", encoding="utf-8")
+        content = file.read()
+        file.close()
         post = {
             'title': f'{this_week_sunday_service_staff.sunday_service_date.strftime("%Y.%m.%d")}教会周报',
             'slug': f'{this_week_sunday_service_staff.sunday_service_date.strftime("%Y-%m-%d")}_info-gottesdienst',
@@ -50,12 +53,17 @@ class WordPressService:
             'comment_status': 'closed',
             'ping_status': 'closed',
             'status': 'public' if public_post else 'private',
-            'content': Template.load_weekly_report_template(
+            'content': TemplateStringReplacement.load_weekly_report_template(
+                content,
                 last_week_sunday_service_report=last_week_sunday_service_report,
                 this_week_sunday_service_staff=this_week_sunday_service_staff,
-                this_week_sunday_service_teaching_and_scripture=this_week_sunday_service_teaching_and_scripture,
-                last_week_golden_verse=last_week_golden_verse,
-                next_week_sunday_service_staff=next_week_sunday_service_staff
+
+                this_week_sermon_and_scripture=this_week_sermon_and_scripture,
+                next_week_sermon_and_scripture=next_week_sermon_and_scripture,
+                last_week_golden_verse=last_week_sermon_and_scripture.golden_verse,
+
+                next_week_sunday_service_staff=next_week_sunday_service_staff,
+                bible_query_service=bible_query_service
             )
         }
         response = requests.post(url, headers=header, json=post)

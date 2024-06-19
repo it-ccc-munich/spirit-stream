@@ -5,6 +5,7 @@
 from datetime import timedelta
 
 from BibleQuery.BibleQuery import BibleQueryService
+from DataTransferObject.ContactDTO import ContactDTO
 from GmailSmtp.EmailService import EmailService
 from GoogleSheets.DateHelper import get_upcoming_sunday
 from GoogleSheets.ServiceStaffContactInfoConnector import ServiceStaffContactInfoConnector
@@ -16,6 +17,7 @@ from WordPress.WordPressService import WordPressService
 
 
 def run():
+
     # Getbible query service
     bibleQueryService = BibleQueryService()
 
@@ -41,6 +43,11 @@ def run():
 
     contact_info = serviceStaffContactInfoConnector.get_contact_info_data()
 
+    # For tests, we run everything and most importantly, we only send email to the tester's account, and we set publish_post to false, so it creates a private post
+    staff_this_week.projector_operator = "董哲韬"
+    contact_info = [ContactDTO("董哲韬", "donin1129@gmail.com")]
+    publish_post = False
+
     # Create the post and this will automatically trigger an email sent to subscribers if publish_post==True
     site_id = 'ccc-munich.org'  # test_site_id = 'testingcccmunich.wordpress.com'
     wordPressService = WordPressService(site_id=site_id,
@@ -58,8 +65,9 @@ def run():
         last_week_sermon_and_scripture=sermon_and_scripture_last_week,
         this_week_sermon_and_scripture=sermon_and_scripture_this_week,
         next_week_sermon_and_scripture=sermon_and_scripture_next_week,
+
         bible_query_service=bibleQueryService,
-        public_post=True
+        public_post=publish_post
     )
 
     print(f"WordPress post created with link '{post_link}'")

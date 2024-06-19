@@ -1,5 +1,5 @@
 from DataTransferObject.VerseDTO import VerseDTO
-from Helpers.BibleQuery import BibleQueryService
+from BibleQuery.BibleQuery import BibleQueryService
 
 if __name__ == '__main__':
     verse1 = VerseDTO("创世记", 1, 1)
