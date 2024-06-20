@@ -1,3 +1,4 @@
+import os
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -24,12 +25,14 @@ class EmailService:
             smtp.login(self.email_address, self.password)
             smtp.sendmail(self.email_address, message["To"], message.as_string())
 
-    def send_service_reminder_emails(self, sunday_service_staff: SundayServiceStaffDTO, sunday_service_sermon_and_scriptures: SundayServiceSermonAndScripturesDTO, contacts: List[ContactDTO]):
-        file = open("./ServiceReminderEmailTemplate.html", "r", encoding="utf-8")
+    def send_service_reminder_emails(self, sunday_service_staff: SundayServiceStaffDTO, sunday_service_sermon_and_scriptures: SundayServiceSermonAndScripturesDTO, weekly_report_url: str, contacts: List[ContactDTO]):
+        filedir = os.path.dirname(__file__)
+        file = open(os.path.join(filedir, "./ServiceReminderEmailTemplate.html"), "r", encoding="utf-8")
         content = file.read()
         file.close()
 
         content = replace_this_week_service_staff(content, sunday_service_staff, sunday_service_sermon_and_scriptures)
+        content = content.replace('%THIS_WEEKLY_REPORT_URL%', weekly_report_url)
 
         for contact in contacts:
             # 如果聯係清單上的名字出現在本周服侍裏 并且 聯係人有email記錄在聯係清單上

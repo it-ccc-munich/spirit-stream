@@ -10,27 +10,27 @@ def _dict2dto(date, result_dict) -> SundayServiceSermonAndScripturesDTO:
 
     try:
         psalms_of_inspiration_start = VerseDTO(result_dict['启应诗 - 書'], int(result_dict['启应诗 - 章']), int(result_dict['启应诗 - 節'].split('-')[0]))
-    except ValueError:
+    except (KeyError, ValueError):
         psalms_of_inspiration_start = None
 
     try:
         psalms_of_inspiration_end = VerseDTO(result_dict['启应诗 - 書'], int(result_dict['启应诗 - 章']), int(result_dict['启应诗 - 節'].split('-')[1]))
-    except ValueError:
+    except (KeyError, ValueError):
         psalms_of_inspiration_end = None
 
     try:
         scripture_start = VerseDTO(result_dict['經文 - 書'], int(result_dict['經文 - 章']), int(result_dict['經文 - 節'].split('-')[0]))
-    except ValueError:
+    except (KeyError, ValueError):
         scripture_start = None
 
     try:
         scripture_end = VerseDTO(result_dict['經文 - 書'], int(result_dict['經文 - 章']), int(result_dict['經文 - 節'].split('-')[1]))
-    except ValueError:
+    except (KeyError, ValueError):
         scripture_end = None
 
     try:
         golden_verse = VerseDTO(result_dict['金句 - 書'], int(result_dict['金句 - 章']), int(result_dict['金句 - 節']))
-    except ValueError:
+    except (KeyError, ValueError):
         golden_verse = None
 
     return SundayServiceSermonAndScripturesDTO(
@@ -59,12 +59,10 @@ class SundayServiceSermonScriptureConnector:
 
         dict_for_row = {}
 
-        keys = self.worksheet.get(f"A2:R2")[0]
+        keys = self.worksheet.get(f"A1:R1")[0]
         values = self.worksheet.get(f"A{row_index}:R{row_index}")[0]
 
-        assert len(keys) == len(values)
-
-        for i in range(len(keys)):
+        for i in range(min(len(keys), len(values))):
             dict_for_row[keys[i]] = values[i]
 
         return _dict2dto(target_date, dict_for_row)

@@ -24,7 +24,7 @@ def _dict2dto(date, result_dict) -> SundayServiceReportDTO:
         newcomer = None
 
     try:
-        offering = int(result_dict['奉獻'])
+        offering = float(result_dict['奉獻'].replace('€', ''))
     except ValueError:
         offering = None
 
@@ -50,7 +50,7 @@ class SundayServiceStatisticsConnector:
 
         dict_for_row = {}
 
-        keys = self.worksheet.get(f"A2:E2")[0]
+        keys = self.worksheet.get(f"A1:E1")[0]
         values = self.worksheet.get(f"A{row_index}:E{row_index}")[0]
 
         assert len(keys) == len(values)

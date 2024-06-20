@@ -36,9 +36,13 @@ def load_weekly_report_template(
     # 上周金句
     if last_week_golden_verse:
         weekly_report_template = weekly_report_template.replace('%LAST_SERVICE_GOLDEN_VERSE_SECTION%', load_golden_verse_section_template(golden_verse_template, "上周金句：", last_week_golden_verse, bible_query_service))
+    else:
+        weekly_report_template = weekly_report_template.replace('%LAST_SERVICE_GOLDEN_VERSE_SECTION%', '')
     # 本周金句
     if this_week_sermon_and_scripture.golden_verse:
         weekly_report_template = weekly_report_template.replace('%THIS_SERVICE_GOLDEN_VERSE_SECTION%', load_golden_verse_section_template(golden_verse_template, "本周金句：", this_week_sermon_and_scripture.golden_verse, bible_query_service))
+    else:
+        weekly_report_template = weekly_report_template.replace('%THIS_SERVICE_GOLDEN_VERSE_SECTION%', '')
 
     # 下周服事人员
     weekly_report_template = weekly_report_template.replace('%NEXT_SERVICE_PREACHER%', f"{next_week_sermon_and_scripture.preacher}")
@@ -55,7 +59,7 @@ def load_weekly_report_template(
     weekly_report_template = weekly_report_template.replace('%NEXT_SERVICE_FELLOWSHIP%', f"{next_week_sunday_service_staff.fellowship}")
 
     # 奉献金句
-    weekly_report_template = weekly_report_template.replace('%OFFERING_GOLDEN_VERSE_SECTION%', load_golden_verse_section_template_from_str("奉献金句：", "37. 主耶和华如此说，我要加增以色列家的人数，多如羊群。他们必为这事向我求问，我要给他们成就。<br>38. 耶路撒冷在守节作祭物所献的羊群怎样多，照样，荒凉的城邑必被人群充满。他们就知道我是耶和华。", "以西结书 36:37-38"))
+    weekly_report_template = weekly_report_template.replace('%OFFERING_GOLDEN_VERSE_SECTION%', load_golden_verse_section_template_from_str(golden_verse_template, "奉献金句：", "37. 主耶和华如此说，我要加增以色列家的人数，多如羊群。他们必为这事向我求问，我要给他们成就。<br>38. 耶路撒冷在守节作祭物所献的羊群怎样多，照样，荒凉的城邑必被人群充满。他们就知道我是耶和华。", "以西结书 36:37-38"))
 
     return weekly_report_template
 

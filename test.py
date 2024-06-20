@@ -22,10 +22,10 @@ def run():
     bibleQueryService = BibleQueryService()
 
     # Get connector objects
-    sundayServiceStaffConnector = SundayServiceStaffConnector('../Security/church-service-automation-2bbbc534b2e3.json')
-    serviceStaffContactInfoConnector = ServiceStaffContactInfoConnector('../Security/church-service-automation-2bbbc534b2e3.json')
-    sundayServiceSermonScriptureConnector = SundayServiceSermonScriptureConnector('../Security/church-service-automation-2bbbc534b2e3.json')
-    sundayServiceStatisticsConnector = SundayServiceStatisticsConnector('../Security/church-service-automation-2bbbc534b2e3.json')
+    sundayServiceStaffConnector = SundayServiceStaffConnector('./Security/church-service-automation-2bbbc534b2e3.json')
+    serviceStaffContactInfoConnector = ServiceStaffContactInfoConnector('./Security/church-service-automation-2bbbc534b2e3.json')
+    sundayServiceSermonScriptureConnector = SundayServiceSermonScriptureConnector('./Security/church-service-automation-2bbbc534b2e3.json')
+    sundayServiceStatisticsConnector = SundayServiceStatisticsConnector('./Security/church-service-automation-2bbbc534b2e3.json')
 
     # Retrieve data transfer objects
     upcoming_sunday_date = get_upcoming_sunday()
@@ -74,7 +74,7 @@ def run():
 
     # Send email reminder
     email_service = EmailService()
-    email_service.send_service_reminder_emails(staff_this_week, sermon_and_scripture_this_week, contact_info)
+    email_service.send_service_reminder_emails(staff_this_week, sermon_and_scripture_this_week, post_link, contact_info)
 
 
 if __name__ == '__main__':

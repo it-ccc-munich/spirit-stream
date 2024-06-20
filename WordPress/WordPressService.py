@@ -1,3 +1,5 @@
+import os
+
 import requests
 
 from BibleQuery.BibleQuery import BibleQueryService
@@ -43,9 +45,16 @@ class WordPressService:
         access_token = self._get_access_token()
         url = f"https://public-api.wordpress.com/wp/v2/sites/{self.site_id}/posts"
         header = {'Authorization': f'Bearer {access_token}'}
-        file = open("./WeeklyUpdateTemplate.html", "r", encoding="utf-8")
-        content = file.read()
-        file.close()
+
+        filedir = os.path.dirname(__file__)
+        weekly_update_template_file = open(os.path.join(filedir, "./WeeklyUpdateTemplate.html"), "r", encoding="utf-8")
+        weekly_update_template_content = weekly_update_template_file.read()
+        weekly_update_template_file.close()
+
+        golden_verse_template_file = open(os.path.join(filedir, "./GoldenVerseTemplate.html"), "r", encoding="utf-8")
+        golden_verse_template_content = golden_verse_template_file.read()
+        golden_verse_template_file.close()
+
         post = {
             'title': f'{this_week_sunday_service_staff.sunday_service_date.strftime("%Y.%m.%d")}教会周报',
             'slug': f'{this_week_sunday_service_staff.sunday_service_date.strftime("%Y-%m-%d")}_info-gottesdienst',
@@ -54,7 +63,8 @@ class WordPressService:
             'ping_status': 'closed',
             'status': 'public' if public_post else 'private',
             'content': TemplateStringReplacement.load_weekly_report_template(
-                content,
+                weekly_update_template_content,
+                golden_verse_template_content,
                 last_week_sunday_service_report=last_week_sunday_service_report,
                 this_week_sunday_service_staff=this_week_sunday_service_staff,
 
