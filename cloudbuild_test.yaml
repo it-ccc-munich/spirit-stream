@@ -1,0 +1,20 @@
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - '-f'
+      - Dockerfile_test
+      - '-t'
+      - >-
+        europe-west9-docker.pkg.dev/church-service-automation/ccc-church-automation/spirit-stream-test-py:latest
+      - .
+    dir: ./backend
+    id: Build image
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - >-
+        europe-west9-docker.pkg.dev/church-service-automation/ccc-church-automation/spirit-stream-test-py:latest
+    id: Push the container image to registry
+options:
+  logging: CLOUD_LOGGING_ONLY
