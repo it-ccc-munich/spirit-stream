@@ -12,7 +12,7 @@ These sensitive information is injected in the runtime. If you want to run all t
 
 ### Build the docker image
 ```commandline
-docker build -f "Dockerfile_tests" -t europe-west9-docker.pkg.dev/church-service-automation/ccc-church-automation/spirit-stream-test-py:latest .
+docker build -f "Dockerfile_test" -t europe-west9-docker.pkg.dev/church-service-automation/ccc-church-automation/spirit-stream-test-py:latest .
 ```
 ### Run the container for testing
 This is designed to run the **test.py** file within this repository. 
