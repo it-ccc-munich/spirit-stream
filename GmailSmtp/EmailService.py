@@ -38,13 +38,13 @@ class EmailService:
             # 如果聯係清單上的名字出現在本周服侍裏 并且 聯係人有email記錄在聯係清單上
             if contact.name in content and contact.email:
                 # 加粗名字
-                content = content.replace(contact.name, f'<strong>{contact.name}</strong>')
+                content_to_send = content.replace(contact.name, f'<strong>{contact.name}</strong>')
                 # 發送郵件
                 message = MIMEMultipart('alternative')
 
                 message["To"] = contact.email
                 message["Subject"] = f'{sunday_service_staff.sunday_service_date.strftime("%Y-%m-%d")} 服侍提醒'
 
-                message.attach(MIMEText(content, 'html'))
+                message.attach(MIMEText(content_to_send, 'html'))
 
                 self.send_email(message)
