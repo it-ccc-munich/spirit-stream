@@ -77,5 +77,6 @@ class WordPressService:
             )
         }
         response = requests.post(url, headers=header, json=post)
-        assert response.status_code == 201
+        # The response code has to be 2XX.
+        assert str(response.status_code)[0] == '2'
         return response.json()['link']
