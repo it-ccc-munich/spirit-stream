@@ -16,7 +16,7 @@ from WordPress.WordPressService import WordPressService
 
 
 def run():
-    # Getbible query service
+    # Get bible query service
     bibleQueryService = BibleQueryService()
 
     # Get connector objects
@@ -38,6 +38,11 @@ def run():
     sermon_and_scripture_next_week = sundayServiceSermonScriptureConnector.get_sermon_scripture_data(next_upcoming_sunday_date)
 
     report_last_week = sundayServiceStatisticsConnector.get_service_statistics(last_sunday_date)
+    greeters_this_week = sundayServiceStatisticsConnector.get_service_statistics(upcoming_sunday_date).greeters
+    greeters_next_week = sundayServiceStatisticsConnector.get_service_statistics(next_upcoming_sunday_date).greeters
+
+    staff_this_week.greeters = greeters_this_week
+    staff_next_week.greeters = greeters_next_week
 
     contact_info = serviceStaffContactInfoConnector.get_contact_info_data()
 

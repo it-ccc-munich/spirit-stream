@@ -12,13 +12,11 @@ def _dict2dto(target_date, result_dict):
 
     return SundayServiceStaffDTO(
         sunday_service_date=target_date,
-        preacher=result_dict['讲员'],
         host=result_dict['主礼'],
         scripture_reader=result_dict['主礼'],
         pianist=result_dict['司琴'],
         hymn_leaders=[result_dict['主领'], result_dict['副领']],
         projector_operator=result_dict['PPT制作'],
-        benediction='',
         sunday_school_leaders=[result_dict['儿主大班'], result_dict['儿主小班']],
         venue=[result_dict['场地1'], result_dict['场地2']],
         greeters=[],

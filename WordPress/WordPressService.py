@@ -58,7 +58,7 @@ class WordPressService:
         post = {
             'title': f'{this_week_sunday_service_staff.sunday_service_date.strftime("%Y.%m.%d")}教会周报',
             'slug': f'{this_week_sunday_service_staff.sunday_service_date.strftime("%Y-%m-%d")}_info-gottesdienst',
-            'categories': [43824102],
+            'categories': [43824102, 698032323],
             'comment_status': 'closed',
             'ping_status': 'closed',
             'status': 'public' if public_post else 'private',

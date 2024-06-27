@@ -3,8 +3,8 @@ from typing import List
 
 
 class SundayServiceStaffDTO:
-    def __init__(self, sunday_service_date: date, preacher: str, host: str, scripture_reader: str, pianist: str,
-                 hymn_leaders: List[str], projector_operator: str, benediction: str,
+    def __init__(self, sunday_service_date: date, host: str, scripture_reader: str, pianist: str,
+                 hymn_leaders: List[str], projector_operator: str,
                  sunday_school_leaders: List[str], venue: List[str], greeters: List[str],
                  meal_preparers: List[str], fellowship: str):
 

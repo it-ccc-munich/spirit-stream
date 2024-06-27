@@ -18,7 +18,7 @@ from WordPress.WordPressService import WordPressService
 
 def run():
 
-    # Getbible query service
+    # Get bible query service
     bibleQueryService = BibleQueryService()
 
     # Get connector objects
@@ -40,13 +40,17 @@ def run():
     sermon_and_scripture_next_week = sundayServiceSermonScriptureConnector.get_sermon_scripture_data(next_upcoming_sunday_date)
 
     report_last_week = sundayServiceStatisticsConnector.get_service_statistics(last_sunday_date)
+    greeters_this_week = sundayServiceStatisticsConnector.get_service_statistics(upcoming_sunday_date).greeters
+    greeters_next_week = sundayServiceStatisticsConnector.get_service_statistics(next_upcoming_sunday_date).greeters
+
+    staff_this_week.greeters = greeters_this_week
+    staff_next_week.greeters = greeters_next_week
 
     contact_info = serviceStaffContactInfoConnector.get_contact_info_data()
 
     # For tests, we run everything and most importantly, we only send email to the tester's account, and we set publish_post to false, so it creates a private post
     staff_this_week.projector_operator = "董哲韬"
     contact_info = [ContactDTO("董哲韬", "donin1129@gmail.com")]
-    publish_post = False
 
     # Create the post and this will automatically trigger an email sent to subscribers if publish_post==True
     site_id = 'ccc-munich.org'  # test_site_id = 'testingcccmunich.wordpress.com'
@@ -67,7 +71,7 @@ def run():
         next_week_sermon_and_scripture=sermon_and_scripture_next_week,
 
         bible_query_service=bibleQueryService,
-        public_post=publish_post
+        public_post=False
     )
 
     print(f"WordPress post created with link '{post_link}'")

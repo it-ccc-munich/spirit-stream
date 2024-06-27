@@ -10,25 +10,28 @@ def _dict2dto(date, result_dict) -> SundayServiceReportDTO:
 
     try:
         adults_attended = int(result_dict['成人'])
-    except ValueError:
+    except (ValueError, KeyError):
         adults_attended = None
 
     try:
         children_attended = int(result_dict['小孩'])
-    except ValueError:
+    except (ValueError, KeyError):
         children_attended = None
 
     try:
         newcomer = int(result_dict['新人'])
-    except ValueError:
+    except (ValueError, KeyError):
         newcomer = None
 
     try:
         offering = float(result_dict['奉獻'].replace('€', ''))
-    except ValueError:
+    except (ValueError, KeyError):
         offering = None
 
+    greeters = [result_dict['接待1'], result_dict['接待2']]
+
     return SundayServiceReportDTO(
+        greeters=greeters,
         sunday_service_date=date,
         adults_attended=adults_attended,
         children_attended=children_attended,
@@ -50,12 +53,10 @@ class SundayServiceStatisticsConnector:
 
         dict_for_row = {}
 
-        keys = self.worksheet.get(f"A1:E1")[0]
-        values = self.worksheet.get(f"A{row_index}:E{row_index}")[0]
+        keys = self.worksheet.get(f"A1:G1")[0]
+        values = self.worksheet.get(f"A{row_index}:G{row_index}")[0]
 
-        assert len(keys) == len(values)
-
-        for i in range(len(keys)):
+        for i in range(min(len(keys), len(values))):
             dict_for_row[keys[i]] = values[i]
 
         return _dict2dto(target_date, dict_for_row)

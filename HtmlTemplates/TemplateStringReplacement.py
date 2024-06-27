@@ -20,11 +20,13 @@ def load_weekly_report_template(
 ):
 
     # 上周汇报
-    weekly_report_template = weekly_report_template.replace('%LAST_SERVICE_MONTH%', f"{last_week_sunday_service_report.sunday_service_date.month}")
-    weekly_report_template = weekly_report_template.replace('%LAST_SERVICE_DATE%', f"{last_week_sunday_service_report.sunday_service_date.day}")
-    weekly_report_template = weekly_report_template.replace('%LAST_SERVICE_ATTENDED_ADULTS%', f"{last_week_sunday_service_report.adults_attended}")
-    weekly_report_template = weekly_report_template.replace('%LAST_SERVICE_ATTENDED_CHILDREN%', f"{last_week_sunday_service_report.children_attended}")
-    weekly_report_template = weekly_report_template.replace('%LAST_SERVICE_OFFERING%', f"{last_week_sunday_service_report.offering}")
+    last_service_report_str = f"{last_week_sunday_service_report.sunday_service_date.month}月{last_week_sunday_service_report.sunday_service_date.day}日线下崇拜在上帝的祝福中结束。"
+    if last_week_sunday_service_report.adults_attended is not None and last_week_sunday_service_report.children_attended is not None:
+        last_service_report_str = last_service_report_str + f"参加崇拜的成人共有{last_week_sunday_service_report.adults_attended}人，小孩{last_week_sunday_service_report.children_attended}人。"
+    if last_week_sunday_service_report.offering is not None:
+        last_service_report_str = last_service_report_str + f"上周主日奉献{last_week_sunday_service_report.offering}欧。"
+
+    weekly_report_template = weekly_report_template.replace('%LAST_SERVICE_REPORT_STRING%', last_service_report_str)
 
     weekly_report_template = replace_this_week_service_staff(weekly_report_template, this_week_sunday_service_staff, this_week_sermon_and_scripture)
 
@@ -49,13 +51,13 @@ def load_weekly_report_template(
     weekly_report_template = weekly_report_template.replace('%NEXT_SERVICE_HOST%', f"{next_week_sunday_service_staff.host}")
     weekly_report_template = weekly_report_template.replace('%NEXT_SERVICE_SCRIPTURE_READER%', f"{next_week_sunday_service_staff.scripture_reader}")
     weekly_report_template = weekly_report_template.replace('%NEXT_SERVICE_PIANIST%', f"{next_week_sunday_service_staff.pianist}")
-    weekly_report_template = weekly_report_template.replace('%NEXT_SERVICE_HYMN_LEADERS%', f"{'，'.join(next_week_sunday_service_staff.hymn_leaders)}")
+    weekly_report_template = weekly_report_template.replace('%NEXT_SERVICE_HYMN_LEADERS%', f"{'，'.join(set(next_week_sunday_service_staff.hymn_leaders))}")
     weekly_report_template = weekly_report_template.replace('%NEXT_SERVICE_PROJECTOR_OPERATOR%', f"{next_week_sunday_service_staff.projector_operator}")
     weekly_report_template = weekly_report_template.replace('%NEXT_SERVICE_BENEDICTION%', f"{next_week_sermon_and_scripture.benediction}")
-    weekly_report_template = weekly_report_template.replace('%NEXT_SERVICE_SUNDAY_SCHOOL_LEADERS%', f"{'，'.join(next_week_sunday_service_staff.sunday_school_leaders)}")
-    weekly_report_template = weekly_report_template.replace('%NEXT_SERVICE_VENUE%', f"{'，'.join(next_week_sunday_service_staff.venue)}")
-    weekly_report_template = weekly_report_template.replace('%NEXT_SERVICE_GREETERS%', f"{'，'.join(next_week_sunday_service_staff.greeters)}")
-    weekly_report_template = weekly_report_template.replace('%NEXT_SERVICE_MEAL_PREPARERS%', f"{'，'.join(next_week_sunday_service_staff.meal_preparers)}")
+    weekly_report_template = weekly_report_template.replace('%NEXT_SERVICE_SUNDAY_SCHOOL_LEADERS%', f"{'，'.join(set(next_week_sunday_service_staff.sunday_school_leaders))}")
+    weekly_report_template = weekly_report_template.replace('%NEXT_SERVICE_VENUE%', f"{'，'.join(set(next_week_sunday_service_staff.venue))}")
+    weekly_report_template = weekly_report_template.replace('%NEXT_SERVICE_GREETERS%', f"{'，'.join(set(next_week_sunday_service_staff.greeters))}")
+    weekly_report_template = weekly_report_template.replace('%NEXT_SERVICE_MEAL_PREPARERS%', f"{'，'.join(set(next_week_sunday_service_staff.meal_preparers))}")
     weekly_report_template = weekly_report_template.replace('%NEXT_SERVICE_FELLOWSHIP%', f"{next_week_sunday_service_staff.fellowship}")
 
     # 奉献金句
@@ -71,13 +73,13 @@ def replace_this_week_service_staff(content: str, this_week_sunday_service_staff
     content = content.replace('%THIS_SERVICE_HOST%', f"{this_week_sunday_service_staff.host}")
     content = content.replace('%THIS_SERVICE_SCRIPTURE_READER%', f"{this_week_sunday_service_staff.scripture_reader}")
     content = content.replace('%THIS_SERVICE_PIANIST%', f"{this_week_sunday_service_staff.pianist}")
-    content = content.replace('%THIS_SERVICE_HYMN_LEADERS%', f"{'，'.join(this_week_sunday_service_staff.hymn_leaders)}")
+    content = content.replace('%THIS_SERVICE_HYMN_LEADERS%', f"{'，'.join(set(this_week_sunday_service_staff.hymn_leaders))}")
     content = content.replace('%THIS_SERVICE_PROJECTOR_OPERATOR%', f"{this_week_sunday_service_staff.projector_operator}")
     content = content.replace('%THIS_SERVICE_BENEDICTION%', f"{this_week_sermon_and_scripture.benediction}")
-    content = content.replace('%THIS_SERVICE_SUNDAY_SCHOOL_LEADERS%', f"{'，'.join(this_week_sunday_service_staff.sunday_school_leaders)}")
-    content = content.replace('%THIS_SERVICE_VENUE%', f"{'，'.join(this_week_sunday_service_staff.venue)}")
-    content = content.replace('%THIS_SERVICE_GREETERS%', f"{'，'.join(this_week_sunday_service_staff.greeters)}")
-    content = content.replace('%THIS_SERVICE_MEAL_PREPARERS%', f"{'，'.join(this_week_sunday_service_staff.meal_preparers)}")
+    content = content.replace('%THIS_SERVICE_SUNDAY_SCHOOL_LEADERS%', f"{'，'.join(set(this_week_sunday_service_staff.sunday_school_leaders))}")
+    content = content.replace('%THIS_SERVICE_VENUE%', f"{'，'.join(set(this_week_sunday_service_staff.venue))}")
+    content = content.replace('%THIS_SERVICE_GREETERS%', f"{'，'.join(set(this_week_sunday_service_staff.greeters))}")
+    content = content.replace('%THIS_SERVICE_MEAL_PREPARERS%', f"{'，'.join(set(this_week_sunday_service_staff.meal_preparers))}")
     content = content.replace('%THIS_SERVICE_FELLOWSHIP%', f"{this_week_sunday_service_staff.fellowship}")
 
     return content
