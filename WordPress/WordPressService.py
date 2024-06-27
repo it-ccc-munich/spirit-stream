@@ -78,5 +78,6 @@ class WordPressService:
         }
         response = requests.post(url, headers=header, json=post)
         # The response code has to be 2XX.
-        assert str(response.status_code)[0] == '2'
+        if str(response.status_code)[0] != '2':
+            raise RuntimeError(f"Status code from Wordpress API is not 2XX but it is {response.status_code}")
         return response.json()['link']
