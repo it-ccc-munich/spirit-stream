@@ -61,7 +61,7 @@ class WordPressService:
             'categories': [43824102, 698032323],
             'comment_status': 'closed',
             'ping_status': 'closed',
-            'status': 'public' if public_post else 'private',
+            'status': 'publish' if public_post else 'private',
             'content': TemplateStringReplacement.load_weekly_report_template(
                 weekly_update_template_content,
                 golden_verse_template_content,
