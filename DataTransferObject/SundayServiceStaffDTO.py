@@ -17,16 +17,16 @@ class SundayServiceStaffDTO:
         # 司琴
         self.pianist = pianist
         # 诗歌
-        self.hymn_leaders = hymn_leaders
+        self.hymn_leaders = list(filter(None, hymn_leaders))
         # 投影
         self.projector_operator = projector_operator
         # 儿主
-        self.sunday_school_leaders = sunday_school_leaders
+        self.sunday_school_leaders = list(filter(None, sunday_school_leaders))
         # 场地
-        self.venue = venue
+        self.venue = list(filter(None, venue))
         # 接待
-        self.greeters = greeters
+        self.greeters = list(filter(None, greeters))
         # 饭食
-        self.meal_preparers = meal_preparers
+        self.meal_preparers = list(filter(None, meal_preparers))
         # 司事
         self.fellowship = fellowship

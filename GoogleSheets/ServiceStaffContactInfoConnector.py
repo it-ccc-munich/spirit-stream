@@ -8,7 +8,7 @@ class ServiceStaffContactInfoConnector:
     def __init__(self, service_account_json_path):
 
         gc = gspread.service_account(service_account_json_path)
-        self.spreadsheet = gc.open_by_url('https://docs.google.com/spreadsheets/d/1mF3DKEHQXaNPNYvc4_oqOtTL7xCw-TpwQaCTNYO5NA0/edit?usp=sharing')
+        self.spreadsheet = gc.open_by_url('https://docs.google.com/spreadsheets/d/18Ogb_M0DV5YOtzKsMTKyoKQlZcMZJZJ2M9lADaICFBo/edit?usp=sharing')
         self.contact_info_worksheet = self.spreadsheet.worksheet('邮件列表')
 
     def get_contact_info_data(self) -> List[ContactDTO]:
@@ -17,12 +17,10 @@ class ServiceStaffContactInfoConnector:
     def read_contact_info(self) -> List[ContactDTO]:
         result = []
 
-        names = self.contact_info_worksheet.col_values(1)
-        emails = self.contact_info_worksheet.col_values(2)
-
-        assert len(names) == len(emails)
-
-        for i in range(1, len(names)):  # We skip row 0 because it is the header.
-            result.append(ContactDTO(names[i], emails[i]))
+        for i in range(2, self.contact_info_worksheet.row_count + 1):
+            row_values = self.contact_info_worksheet.row_values(i)
+            if len(row_values) == 0:
+                break
+            result.append(ContactDTO(row_values[0], row_values[1], row_values[2:]))
 
         return result
